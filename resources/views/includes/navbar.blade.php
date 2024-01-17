@@ -23,49 +23,49 @@
                     Topics
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownTopics">
-                    <a class="dropdown-item" href="http://localhost:8000/categories/politics">
+                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/politics">
                         politics
                     </a>
-                    <a class="dropdown-item" href="http://localhost:8000/categories/economy">
+                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/economy">
                         economy
                     </a>
-                    <a class="dropdown-item" href="http://localhost:8000/categories/eu">
+                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/eu">
                         EU
                     </a>
-                    <a class="dropdown-item" href="http://localhost:8000/categories/us">
+                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/us">
                         US
                     </a>
-                    <a class="dropdown-item" href="http://localhost:8000/categories/science">
+                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/science">
                         science
                     </a>
-                    <a class="dropdown-item" href="http://localhost:8000/categories/technology">
+                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/technology">
                         technology
                     </a>
-                    <a class="dropdown-item" href="http://localhost:8000/categories/ecology">
+                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/ecology">
                         ecology
                     </a>
-                    <a class="dropdown-item" href="http://localhost:8000/categories/lgbt">
+                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/lgbt">
                         LGBT
                     </a>
-                    <a class="dropdown-item" href="http://localhost:8000/categories/culture">
+                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/culture">
                         culture
                     </a>
-                    <a class="dropdown-item" href="http://localhost:8000/categories/society">
+                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/society">
                         society
                     </a>
-                    <a class="dropdown-item" href="http://localhost:8000/categories/stars">
+                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/stars">
                         stars
                     </a>
-                    <a class="dropdown-item" href="http://localhost:8000/categories/movies">
+                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/movies">
                         movies
                     </a>
-                    <a class="dropdown-item" href="http://localhost:8000/categories/music">
+                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/music">
                         Music
                     </a>
-                    <a class="dropdown-item" href="http://localhost:8000/categories/religion">
+                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/religion">
                         Religion
                     </a>
-                    <a class="dropdown-item" href="http://localhost:8000/categories/refugees">
+                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/refugees">
                         Refugees
                     </a>
                 </div>
@@ -76,37 +76,37 @@
                     Places
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownPlaces">
-                    <a class="dropdown-item" href="http://localhost:8000/categories/world">
+                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/world">
                         world
                     </a>
-                    <a class="dropdown-item" href="http://localhost:8000/categories/europe">
+                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/europe">
                         Europe
                     </a>
-                    <a class="dropdown-item" href="http://localhost:8000/categories/north-america">
+                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/north-america">
                         North America
                     </a>
-                    <a class="dropdown-item" href="http://localhost:8000/categories/asia">
+                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/asia">
                         Asia
                     </a>
-                    <a class="dropdown-item" href="http://localhost:8000/categories/asia-minor">
+                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/asia-minor">
                         Asia Minor
                     </a>
-                    <a class="dropdown-item" href="http://localhost:8000/categories/latin-america">
+                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/latin-america">
                         Latin America
                     </a>
-                    <a class="dropdown-item" href="http://localhost:8000/categories/africa">
+                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/africa">
                         Africa
                     </a>
-                    <a class="dropdown-item" href="http://localhost:8000/categories/australia">
+                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/australia">
                         Australia
                     </a>
-                    <a class="dropdown-item" href="http://localhost:8000/categories/antarctica">
+                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/antarctica">
                         Antarctica
                     </a>
-                    <a class="dropdown-item" href="http://localhost:8000/categories/space">
+                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/space">
                         space
                     </a>
-                    <a class="dropdown-item" href="http://localhost:8000/categories/moon">
+                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/moon">
                         Moon
                     </a>
                 </div>
