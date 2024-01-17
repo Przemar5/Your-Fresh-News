@@ -43,7 +43,9 @@
         <div class="col-12 col-lg-4 mt-4 mt-lg-0">
             <h2>Advanced Search</h2>
 
-            @include('includes.forms.search', ['initialCategories' => $article->categories, 'initialTags' => $article->tags])
+            @for($i = 0; $i < min([count($articles), 1]); $i++)
+                @include('includes.forms.search', ['initialCategories' => $article->categories, 'initialTags' => $article->tags])
+            @endfor
         </div>
     </div>
 </div>
