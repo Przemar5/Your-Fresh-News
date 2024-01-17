@@ -56,33 +56,35 @@
 		</div>
 
 		@if(count($articles->secondary))
-			@for($i = 0; $i < 2; $i++)
-			<div class="col-sm-6 my-3 d-flex flex-row align-items-stretch" style="content: border-box;">
-				<div class="article-tile">
-					<a href="{{ route('articles.show', $articles->secondary[$articleCategories[$i]->name]->slug) }}" class="article-tile-image-container">
-						<div class="article-tile-image-big" style="background-image: url('{{ $articles->secondary[$articleCategories[$i]->name]->coverPath() }}');"></div>
-					</a>
-					<div class="article-tile-caption p-3">
-						<strong class="d-inline-block mb-2 text-primary">
-							<a href="{{ route('categories.show', $articleCategories[$i]->slug) }}">
-								{{ ucfirst($articleCategories[$i]->name) }}
-							</a>
-						</strong>
-						<h3 class="mb-0">
-							{{ $articles->secondary[$articleCategories[$i]->name]->title }}
-						</h3>
-						<span class="mb-1 font-italic text-muted">
-							{{ $articles->secondary[$articleCategories[$i]->name]->created_at->format('j F, Y') }}
-						</span>
-						<p class="card-text mb-auto">
-							{!! \Illuminate\Support\Str::limit($articles->secondary[$articleCategories[$i]->name]->body, 180, $end='...') !!}
-						</p>
-						<a href="{{ route('articles.show', $articles->secondary[$articleCategories[$i]->name]->slug) }}">
-							Continue reading
+			@for($i = 0; $i < min([count($articles->secondary), 2]); $i++)
+				@if($articles->secondary[$articleCategories[$i]->name])
+				<div class="col-sm-6 my-3 d-flex flex-row align-items-stretch" style="content: border-box;">
+					<div class="article-tile">
+						<a href="{{ route('articles.show', $articles->secondary[$articleCategories[$i]->name]->slug) }}" class="article-tile-image-container">
+							<div class="article-tile-image-big" style="background-image: url('{{ $articles->secondary[$articleCategories[$i]->name]->coverPath() }}');"></div>
 						</a>
+						<div class="article-tile-caption p-3">
+							<strong class="d-inline-block mb-2 text-primary">
+								<a href="{{ route('categories.show', $articleCategories[$i]->slug) }}">
+									{{ ucfirst($articleCategories[$i]->name) }}
+								</a>
+							</strong>
+							<h3 class="mb-0">
+								{{ $articles->secondary[$articleCategories[$i]->name]->title }}
+							</h3>
+							<span class="mb-1 font-italic text-muted">
+								{{ $articles->secondary[$articleCategories[$i]->name]->created_at->format('j F, Y') }}
+							</span>
+							<p class="card-text mb-auto">
+								{!! \Illuminate\Support\Str::limit($articles->secondary[$articleCategories[$i]->name]->body, 180, $end='...') !!}
+							</p>
+							<a href="{{ route('articles.show', $articles->secondary[$articleCategories[$i]->name]->slug) }}">
+								Continue reading
+							</a>
+						</div>
 					</div>
 				</div>
-			</div>
+				@endif
 			@endfor
 		@endif
 
