@@ -23,49 +23,49 @@
                     Topics
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownTopics">
-                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/politics">
+                    <a class="dropdown-item" href="{{ route('categories.show', ['slug' => 'politics']) }}">
                         politics
                     </a>
-                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/economy">
+                    <a class="dropdown-item" href="{{ route('categories.show', ['slug' => 'economy']) }}">
                         economy
                     </a>
-                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/eu">
+                    <a class="dropdown-item" href="{{ route('categories.show', ['slug' => 'eu']) }}">
                         EU
                     </a>
-                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/us">
+                    <a class="dropdown-item" href="{{ route('categories.show', ['slug' => 'us']) }}">
                         US
                     </a>
-                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/science">
+                    <a class="dropdown-item" href="{{ route('categories.show', ['slug' => 'science']) }}">
                         science
                     </a>
-                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/technology">
+                    <a class="dropdown-item" href="{{ route('categories.show', ['slug' => 'technology']) }}">
                         technology
                     </a>
-                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/ecology">
+                    <a class="dropdown-item" href="{{ route('categories.show', ['slug' => 'ecology']) }}">
                         ecology
                     </a>
-                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/lgbt">
+                    <a class="dropdown-item" href="{{ route('categories.show', ['slug' => 'lgbt']) }}">
                         LGBT
                     </a>
-                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/culture">
+                    <a class="dropdown-item" href="{{ route('categories.show', ['slug' => 'culture']) }}">
                         culture
                     </a>
-                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/society">
+                    <a class="dropdown-item" href="{{ route('categories.show', ['slug' => 'society']) }}">
                         society
                     </a>
-                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/stars">
+                    <a class="dropdown-item" href="{{ route('categories.show', ['slug' => 'stars']) }}">
                         stars
                     </a>
-                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/movies">
+                    <a class="dropdown-item" href="{{ route('categories.show', ['slug' => 'movies']) }}">
                         movies
                     </a>
-                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/music">
+                    <a class="dropdown-item" href="{{ route('categories.show', ['slug' => 'music']) }}">
                         Music
                     </a>
-                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/religion">
+                    <a class="dropdown-item" href="{{ route('categories.show', ['slug' => 'religion']) }}">
                         Religion
                     </a>
-                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/refugees">
+                    <a class="dropdown-item" href="{{ route('categories.show', ['slug' => 'refugees']) }}">
                         Refugees
                     </a>
                 </div>
@@ -76,37 +76,37 @@
                     Places
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownPlaces">
-                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/world">
+                    <a class="dropdown-item" href="{{ route('categories.show', ['slug' => 'world']) }}">
                         world
                     </a>
-                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/europe">
+                    <a class="dropdown-item" href="{{ route('categories.show', ['slug' => 'europe']) }}">
                         Europe
                     </a>
-                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/north-america">
+                    <a class="dropdown-item" href="{{ route('categories.show', ['slug' => 'north-america']) }}">
                         North America
                     </a>
-                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/asia">
+                    <a class="dropdown-item" href="{{ route('categories.show', ['slug' => 'asia']) }}">
                         Asia
                     </a>
-                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/asia-minor">
+                    <a class="dropdown-item" href="{{ route('categories.show', ['slug' => 'asia-minor']) }}">
                         Asia Minor
                     </a>
-                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/latin-america">
+                    <a class="dropdown-item" href="{{ route('categories.show', ['slug' => 'latin-america']) }}">
                         Latin America
                     </a>
-                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/africa">
+                    <a class="dropdown-item" href="{{ route('categories.show', ['slug' => 'africa']) }}">
                         Africa
                     </a>
-                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/australia">
+                    <a class="dropdown-item" href="{{ route('categories.show', ['slug' => 'australia']) }}">
                         Australia
                     </a>
-                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/antarctica">
+                    <a class="dropdown-item" href="{{ route('categories.show', ['slug' => 'antarctica']) }}">
                         Antarctica
                     </a>
-                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/space">
+                    <a class="dropdown-item" href="{{ route('categories.show', ['slug' => 'space']) }}">
                         space
                     </a>
-                    <a class="dropdown-item" href="{{ env('APP_URL') }}/categories/moon">
+                    <a class="dropdown-item" href="{{ route('categories.show', ['slug' => 'moon']) }}">
                         Moon
                     </a>
                 </div>
