@@ -27,7 +27,7 @@ class Category extends Model
      * @var array
      */
 	protected $fillable = [
-		'name', 'slug',
+		'name', 'slug', 'index_in_parent_category',
 	];
 
     public static function childrenOf($parentSlug)

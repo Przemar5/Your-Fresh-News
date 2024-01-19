@@ -57,7 +57,7 @@
 
 		@if(count($articles->secondary))
 			@for($i = 0; $i < min([count($articles->secondary), 2]); $i++)
-				@if($articles->secondary[$articleCategories[$i]->name])
+				@if($articleCategories[$i] && $articles->secondary[$articleCategories[$i]->name])
 				<div class="col-sm-6 my-3 d-flex flex-row align-items-stretch" style="content: border-box;">
 					<div class="article-tile">
 						<a href="{{ route('articles.show', $articles->secondary[$articleCategories[$i]->name]->slug) }}" class="article-tile-image-container">
