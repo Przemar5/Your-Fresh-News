@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\User;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use App\Handlers\FileHandler;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -34,14 +35,18 @@ class RegisterController extends Controller
     // protected $redirectTo = RouteServiceProvider::HOME;
     protected $redirectTo;
 
+    private FileHandler $fileHandler;
+
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(FileHandler $fileHandler)
     {
         $this->middleware('guest');
+
+        $this->fileHandler = $fileHandler;
     }
 
     /**
@@ -64,26 +69,6 @@ class RegisterController extends Controller
     }
 
     /**
-     * Store uploaded file.
-     *
-     * @param File $file
-     * @param string $driver
-     * @return string $filename
-     */
-    private function storeFile($file)
-    {
-        $filename = time() . '.' . $file->getClientOriginalExtension();
-        $fullFilename = 'images/avatars/' . $filename;
-
-        if (Storage::disk('assets')->put($fullFilename, file_get_contents($file))) {
-            return $filename;
-
-        } else {
-            return false;
-        }
-    }
-
-    /**
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
@@ -92,35 +77,51 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         $request = request();
+        $avatarDir = 'images/avatars/';
+        $defaultFilename = 'nophoto.png';
+        $filename = $defaultFilename;
 
-        if ($request->hasFile('avatar')) {
-            $file = $request->file('avatar');
+        try {
+            DB::connection()->beginTransaction();
 
-            if (!($filename = $this->storeFile($file))) {
-                return back()->with([
-                    'error' => "Internal error. Cover image wasn't added.",
-                ]);
+            if ($request->hasFile('avatar')) {
+                $file = $request->file('avatar');
+                $filename = $this->fileHandler->storeFile($file, $avatarDir);
+
+                if (!$filename) {
+                    return back()->with([
+                        'error' => "Internal error. Cover image wasn't added.",
+                    ]);
+                }
             }
-        
-        } else {
-            $filename = 'nophoto.png';
+
+            $id = DB::table('users')->insertGetId([
+                'login' => $data['login'],
+                'name' => $data['name'],
+                'surname' => $data['surname'],
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+                'avatar' => $filename,
+                'info' => $data['info'],
+            ]);
+
+            $user = User::find($id);
+
+            $this->redirectTo = route('profiles.show', ['id' => $id]);
+            $user->sendEmailVerificationNotification();
+            
+            DB::connection()->commit();
+
+            return $user;
+
+        } catch(\Exception $e) {
+            DB::connection()->rollBack();
+
+            if ($filename !== $defaultFilename) {
+                unlink($avatarDir . $filename);
+            }
+
+            throw $e;
         }
-
-        $id = DB::table('users')->insertGetId([
-            'login' => $data['login'],
-            'name' => $data['name'],
-            'surname' => $data['surname'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-            'avatar' => $filename,
-            'info' => $data['info'],
-        ]);
-
-        $user = User::find($id);
-
-        $this->redirectTo = '/users/' . $id;
-        $user->sendEmailVerificationNotification();
-        
-        return $user; 
     }
 }

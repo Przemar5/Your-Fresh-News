@@ -2,6 +2,8 @@
 
 namespace App\Handlers;
 
+use Illuminate\Http\UploadedFile;
+
 class FileHandler 
 {
 	protected $file;
@@ -12,7 +14,7 @@ class FileHandler
 	protected $filename;
 
 
-	public function __construct(File $file)
+	public function __construct(\File $file)
 	{
 		$this->file = $file;
 	}
@@ -84,6 +86,19 @@ class FileHandler
         
         } else {
         	return false;
+        }
+    }
+
+    public function storeFile(UploadedFile $file, string $path)
+    {
+        $filename = time() . '.' . $file->getClientOriginalExtension();
+        $fullFilename = 'images/avatars/' . $filename;
+
+        if (\Storage::disk('assets')->put($fullFilename, file_get_contents($file))) {
+            return $filename;
+
+        } else {
+            return false;
         }
     }
 }

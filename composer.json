@@ -17,6 +17,7 @@
         "laravel/tinker": "^2.0",
         "laravel/ui": "^2.1",
         "laravelcollective/html": "^6.1",
+        "mailjet/laravel-mailjet": "^3.0",
         "phpseclib/bcmath_compat": "1.0.4"
     },
     "require-dev": {
