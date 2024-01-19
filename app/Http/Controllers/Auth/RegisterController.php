@@ -58,9 +58,9 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'login' => ['required', 'string', 'between:2,255', 'regex:/^[\w\-\@\#\&\+\/\.]+$/'],
-            'name' => ['required', 'string', 'between:2,255', 'regex:/^[\w\-]+$/'],
-            'surname' => ['required', 'string', 'between:2,255', 'regex:/^[\w\-]+$/'],
+            'login' => ['required', 'string', 'between:2,255', 'regex:/^[\w\-\@\#\&\+\/\.]+$/u'],
+            'name' => ['required', 'string', 'between:2,255', 'regex:/^[\w\-]+$/u'],
+            'surname' => ['required', 'string', 'between:2,255', 'regex:/^[\w\-]+$/u'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,NULL,id,deleted_at,NULL', 'regex:/^(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){255,})(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){65,}@)(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22))(?:\.(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22)))*@(?:(?:(?!.*[^.]{64,})(?:(?:(?:xn--)?[a-z0-9]+(?:-[a-z0-9]+)*\.){1,126}){1,}(?:(?:[a-z][a-z0-9]*)|(?:(?:xn--)[a-z0-9]+))(?:-[a-z0-9]+)*)|(?:\[(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){7})|(?:(?!(?:.*[a-f0-9][:\]]){7,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?)))|(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){5}:)|(?:(?!(?:.*[a-f0-9]:){5,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3}:)?)))?(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))(?:\.(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))){3}))\]))$/iD'],
             'password' => ['required', 'string', 'between:8,255', 'confirmed'],
             'avatar' => ['nullable', 'image', 'max:20000'],
@@ -77,16 +77,14 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         $request = request();
-        $avatarDir = 'images/avatars/';
-        $defaultFilename = 'nophoto.png';
-        $filename = $defaultFilename;
+        $filename = User::DEFAULT_AVATAR;
 
         try {
             DB::connection()->beginTransaction();
 
             if ($request->hasFile('avatar')) {
                 $file = $request->file('avatar');
-                $filename = $this->fileHandler->storeFile($file, $avatarDir);
+                $filename = $this->fileHandler->storeFile($file, User::AVATAR_PATH);
 
                 if (!$filename) {
                     return back()->with([
@@ -102,7 +100,7 @@ class RegisterController extends Controller
                 'email' => $data['email'],
                 'password' => Hash::make($data['password']),
                 'avatar' => $filename,
-                'info' => $data['info'],
+                'info' => $data['info'] ?? '',
             ]);
 
             $user = User::find($id);
@@ -117,8 +115,8 @@ class RegisterController extends Controller
         } catch(\Exception $e) {
             DB::connection()->rollBack();
 
-            if ($filename !== $defaultFilename) {
-                unlink($avatarDir . $filename);
+            if ($filename !== User::DEFAULT_AVATAR) {
+                unlink(User::AVATAR_PATH . $filename);
             }
 
             throw $e;

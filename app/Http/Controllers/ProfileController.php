@@ -12,10 +12,6 @@ use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
-	private $pathToAvatar = 'images/avatars/';
-    private $defaultAvatar = 'nophoto.png';
-
-
 	/**
      * Create a new controller instance.
      *
@@ -63,7 +59,7 @@ class ProfileController extends Controller
     private function storeFile($file)
     {
         $filename = time() . '.' . $file->getClientOriginalExtension();
-        $fullFilename = $this->pathToAvatar . $filename;
+        $fullFilename = User::AVATAR_PATH . $filename;
 
         if (Storage::disk('assets')->put($fullFilename, file_get_contents($file))) {
             return $filename;
@@ -136,15 +132,15 @@ class ProfileController extends Controller
         $oldAvatar = $user->avatar;
 
         if ($request->hasFile('avatar') || $request->input('delete_avatar') == 'on') {
-            if (!empty($oldAvatar) && $oldAvatar != $this->defaultAvatar) {
+            if (!empty($oldAvatar) && $oldAvatar != User::DEFAULT_AVATAR) {
             	$filePath = $this->getAvatarFilePath($oldAvatar);
 
-	            if (is_readable($filePath) && $oldAvatar != $this->defaultAvatar) {
+	            if (is_readable($filePath) && $oldAvatar != User::DEFAULT_AVATAR) {
 	                unlink($filePath);
 	            }
             }
 
-            $user->avatar = $this->defaultAvatar;
+            $user->avatar = User::DEFAULT_AVATAR;
         }
 
         if ($request->hasFile('avatar')) {
@@ -221,7 +217,7 @@ class ProfileController extends Controller
             return ErrorController::error404();
         }
 
-        if ($user->avatar && $user->avatar != $this->defaultAvatar) {
+        if ($user->avatar && $user->avatar != User::DEFAULT_AVATAR) {
             $filePath = $this->getAvatarFilePath($user->avatar);
 
             if (is_readable($filePath)) {
@@ -243,7 +239,7 @@ class ProfileController extends Controller
      */
     public function getAvatarFilePath(string $filename)
     {
-        return public_path() . '/' . $this->pathToAvatar . $filename;
+        return public_path() . '/' . User::AVATAR_PATH . $filename;
     }
 
 }

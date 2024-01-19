@@ -12,7 +12,10 @@ class User extends Authenticatable implements MustVerifyEmail
     use Notifiable;
     use SoftDeletes;
 
-    // public $avatarPath = '/images/avatars/';
+    public const AVATAR_PATH = '/images/avatars/';
+    public const DEFAULT_AVATAR = 'nophoto.png';
+
+    public $avatarPath = '/images/avatars/';
     public $defaultAvatar = 'nophoto.png';
 
     /**
