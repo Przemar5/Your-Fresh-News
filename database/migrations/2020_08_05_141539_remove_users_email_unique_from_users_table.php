@@ -26,7 +26,7 @@ class RemoveUsersEmailUniqueFromUsersTable extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('email')->unique();
+            // $table->string('email')->unique();
         });
     }
 }

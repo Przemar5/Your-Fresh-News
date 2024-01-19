@@ -30,6 +30,12 @@ class Category extends Model
 		'name', 'slug',
 	];
 
+    public static function childrenOf($parentSlug)
+    {
+        return self::where('parent_id', function ($query) use ($parentSlug) {
+            $query->select('id')->from('categories')->where('slug', $parentSlug);
+        })->orderBy('index_in_parent_category', 'ASC')->get();
+    }
 
     public function articles($column, $order = 'ASC')
     {
