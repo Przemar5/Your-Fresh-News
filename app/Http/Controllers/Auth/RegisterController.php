@@ -82,28 +82,36 @@ class RegisterController extends Controller
         try {
             DB::connection()->beginTransaction();
 
+            $filename = User::DEFAULT_AVATAR;
             if ($request->hasFile('avatar')) {
                 $file = $request->file('avatar');
                 $filename = $this->fileHandler->storeFile($file, User::AVATAR_PATH);
-
-                if (!$filename) {
-                    return back()->with([
-                        'error' => "Internal error. Cover image wasn't added.",
-                    ]);
-                }
             }
 
-            $id = DB::table('users')->insertGetId([
-                'login' => $data['login'],
-                'name' => $data['name'],
-                'surname' => $data['surname'],
-                'email' => $data['email'],
-                'password' => Hash::make($data['password']),
-                'avatar' => $filename,
-                'info' => $data['info'] ?? '',
-            ]);
+            $user = new User();
+            $user->login = $data['login'];
+            $user->name = $data['name'];
+            $user->surname = $data['surname'];
+            $user->email = $data['email'];
+            $user->password = Hash::make($data['password']);
+            $user->avatar = $filename;
+            $user->info = $data['info'] ?? '';
+            
+            if (!$user->save()) {
+                throw new \Exception('User creation failed.');
+            }
 
-            $user = User::find($id);
+            // $id = DB::table('users')->insertGetId([
+            //     'login' => $data['login'],
+            //     'name' => $data['name'],
+            //     'surname' => $data['surname'],
+            //     'email' => $data['email'],
+            //     'password' => Hash::make($data['password']),
+            //     'avatar' => $filename,
+            //     'info' => $data['info'] ?? '',
+            // ]);
+
+            // $user = User::find($id);
 
             $this->redirectTo = route('profiles.show', ['id' => $id]);
             $user->sendEmailVerificationNotification();

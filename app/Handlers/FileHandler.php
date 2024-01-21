@@ -92,13 +92,12 @@ class FileHandler
     public function storeFile(UploadedFile $file, string $path)
     {
         $filename = time() . '.' . $file->getClientOriginalExtension();
-        $fullFilename = 'images/avatars/' . $filename;
+        $fullFilename = $path . $filename;
 
         if (\Storage::disk('assets')->put($fullFilename, file_get_contents($file))) {
             return $filename;
-
-        } else {
-            return false;
         }
+        
+        throw new Exception("File wasn't added.");
     }
 }

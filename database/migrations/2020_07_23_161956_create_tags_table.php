@@ -19,21 +19,6 @@ class CreateTagsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
-
-        DB::table('tags')->insert([
-            ['name' => 'economy'],
-            ['name' => 'politics'],
-            ['name' => 'Europe'],
-            ['name' => 'EU'],
-            ['name' => 'USA'],
-            ['name' => 'world'],
-            ['name' => 'ecology'],
-            ['name' => 'protest'],
-            ['name' => 'culture'],
-            ['name' => 'science'],
-            ['name' => 'technology'],
-            ['name' => 'space'],
-        ]);
     }
 
     /**

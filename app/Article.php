@@ -9,15 +9,12 @@ class Article extends Model
 {
     use SoftDeletes;
 
-    public const COVER_IMAGE_PATH = 'images/cover_images/';
+    public const COVER_IMAGE_PATH = '/images/cover_images/';
     public const DEFAULT_COVER_IMAGE = 'no-image.png';
-    public const DEFAULT_COVER_IMAGE_DESCRIPTION = 'No image';
+    public const DEFAULT_COVER_IMAGE_DESCRIPTION = 'Cover image';
     
     // Table name
     protected $table = 'articles';
-
-    // Path to cover image
-    protected $coverImagePath = '/images/cover_images/';
 
     // Soft delete
     // protected $softDelete = true;
@@ -87,9 +84,9 @@ class Article extends Model
 
     public function coverPath()
     {
-        $coverPath = $this->cover() ? $this->cover()->path : self::DEFAULT_COVER_IMAGE;
+        $coverFilename = $this->cover() ? $this->cover()->path : self::DEFAULT_COVER_IMAGE;
 
-        return env('APP_URL') . self::COVER_IMAGE_PATH . $coverPath;
+        return env('APP_URL') . self::COVER_IMAGE_PATH . $coverFilename;
     }
 
     public function tags()

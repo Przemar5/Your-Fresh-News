@@ -20,12 +20,14 @@ use Illuminate\Support\Facades\DB;
 
 class ArticleController extends Controller
 {
+    private FileHandler $fileHandler;
+
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(FileHandler $fileHandler)
     {
         $this->middleware([
             'auth',
@@ -43,6 +45,8 @@ class ArticleController extends Controller
             'update',
             'destroy',
         ]);
+
+        $this->fileHandler = $fileHandler;
     }
 
     /**
@@ -172,56 +176,55 @@ class ArticleController extends Controller
         if ($validator->fails()) {
             return back()->withErrors($validator->errors());
         }
+        
+        $filename = Article::DEFAULT_COVER_IMAGE;
 
-        // Create article
-        $article = new Article();
-        $article->title = $request->input('title');
-        $article->slug = $request->input('slug');
-        $article->body = $request->input('body');
-        $article->user_id = Auth::id();
-        $saved = $article->save();
+        try {
+            DB::connection()->beginTransaction();
 
-        if ($saved) {
-            // Handle file upload
             if ($request->hasFile('cover_image')) {
                 $file = $request->file('cover_image');
-
-                if (!($filename = $this->storeFile($file))) {
-                    return back()->with([
-                        'error' => "Internal error. Cover image wasn't added."
-                    ]);
-                }
-            
-            } else {
-                $filename = Article::DEFAULT_COVER_IMAGE;
+                $filename = $this->fileHandler->storeFile($file, Article::COVER_IMAGE_PATH);
             }
 
+            // Create image entity
             $image = new Image();
             $image->path = $filename;
             $image->description = $request->input('description') ?? Article::DEFAULT_COVER_IMAGE_DESCRIPTION;
             $image->role = 'cover_image';
-            $stored = $image->save();
 
-            if ($stored) {
-                $imageId = DB::getPdo()->lastInsertId();
-
-                $article->image()->sync($imageId, true);
-                $article->categories()->sync($request->input('categories'), true);
-                $article->tags()->sync($request->input('tags'), true);
-
-                return redirect()->route('articles.show', $article->slug)->with([
-                    'article' => $article,
-                    'success' => 'New article was created successfully.'
-                ]);
-
-            } else {
-                return redirect()->route('articles.show', $article->slug)->with([
-                    'article' => $article,
-                    'error' => "Internal error. New article was created but an image wasn't uploaded."
-                ]);
+            if (!$image->save()) {
+                throw new \Exception("Cover image wasn't added.");
             }
 
-        } else {
+            // Create article
+            $article = new Article();
+            $article->title = $request->input('title');
+            $article->slug = $request->input('slug');
+            $article->body = $request->input('body');
+            $article->user_id = Auth::id();
+            $article->image()->sync($imageId, true);
+            $article->categories()->sync($request->input('categories'), true);
+            $article->tags()->sync($request->input('tags'), true);
+
+            if (!$article->save()) {
+                throw new \Exception("Article wassn't created.");
+            }
+
+            DB::connection()->commit();
+
+            return redirect()->route('articles.show', $article->slug)->with([
+                'article' => $article,
+                'success' => 'New article was created successfully.'
+            ]);
+
+        } catch(\Exception $e) {
+            DB::connection()->rollBack();
+
+            if ($filename !== Article::DEFAULT_COVER_IMAGE) {
+                unlink(Article::COVER_IMAGE_PATH . $filename);
+            }
+            
             return back()->with([
                 'article' => $article,
                 'error' => "Internal error. Article wasn't created."
@@ -246,8 +249,10 @@ class ArticleController extends Controller
 
         if ($image = $article->image()->first()) {
             $coverImage = Image::find($image->id);
-            $filePath = 'images/cover_images/' . $coverImage->path;
+            $filePath = Article::COVER_IMAGE_PATH . $coverImage->path;
             $coverImage->url = Storage::disk('assets')->url($filePath);
+        } else {
+            throw new \Exception('Missing cover image.');
         }
 
         return view('articles.show')->with([
@@ -348,8 +353,7 @@ class ArticleController extends Controller
                         try {
                             if ($oldImage = $article->image()->first()) {
                                 $oldImage = Image::find($oldImage->id);
-                                $filePath = public_path() . 
-                                    '/' . Article::COVER_IMAGE_PATH . $oldImage->path;
+                                $filePath = public_path() . Article::COVER_IMAGE_PATH . $oldImage->path;
 
                                 if (is_readable($filePath) && $oldImage->path != Article::DEFAULT_COVER_IMAGE) {
                                     unlink($filePath);
@@ -419,8 +423,7 @@ class ArticleController extends Controller
             $article->delete();
 
             if ($coverImage->path != Article::DEFAULT_COVER_IMAGE) {
-                $filePath = public_path() . 
-                    '/' . Article::COVER_IMAGE_PATH . $coverImage->path;
+                $filePath = public_path() . Article::COVER_IMAGE_PATH . $coverImage->path;
 
                 if (is_readable($filePath)) {
                     unlink($filePath);

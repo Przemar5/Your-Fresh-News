@@ -21,12 +21,10 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        $users = [$this->generateRandomUserData('Tester', 'test', '1234567890localhost@gmail.com')];
+        $this->generateRandomUserData('Tester', 'test', '1234567890localhost@gmail.com')->save();
         for ($i = 0; $i < 5; $i++) {
-            $users[] = $this->generateRandomUserData();
+            $this->generateRandomUserData()->save();
         }
-
-        DB::table('users')->insert($users);
     }
 
     private function generateRandomUserData(?string $name = null, ?string $surname = null, ?string $email = null)
@@ -34,15 +32,16 @@ class UserSeeder extends Seeder
         $name = $name ?? $this->faker->unique()->name;
         $surname = $surname ?? $this->faker->unique()->name;
 
-        return [
-            'login' => lcfirst($name),
-            'name' => $name,
-            'surname' => $surname,
-            'info' => $this->faker->realText(rand(20, 200)),
-            'avatar' => User::DEFAULT_AVATAR,
-            'email' => $email ?? $this->faker->unique()->safeEmail,
-            'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
-        ];
+        $user = new User();
+        $user->login = lcfirst($name) . '-' . lcfirst($surname);
+        $user->name = $name;
+        $user->surname = $surname;
+        $user->info = $this->faker->realText(rand(20, 200));
+        $user->avatar = User::DEFAULT_AVATAR;
+        $user->email = $email ?? $this->faker->unique()->safeEmail;
+        $user->email_verified_at = now();
+        $user->password = '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi'; // password
+
+        return $user;
     }
 }
