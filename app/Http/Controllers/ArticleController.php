@@ -20,10 +20,6 @@ use Illuminate\Support\Facades\DB;
 
 class ArticleController extends Controller
 {
-    private $pathToCoverImage = 'images/cover_images/';
-    private $defaultImage = 'noimage.png';
-
-
     /**
      * Create a new controller instance.
      *
@@ -118,7 +114,7 @@ class ArticleController extends Controller
     private function storeFile($file)
     {
         $filename = time() . '.' . $file->getClientOriginalExtension();
-        $fullFilename = $this->pathToCoverImage . $filename;
+        $fullFilename = Article::COVER_IMAGE_PATH . $filename;
 
         if (Storage::disk('assets')->put($fullFilename, file_get_contents($file))) {
             return $filename;
@@ -197,12 +193,12 @@ class ArticleController extends Controller
                 }
             
             } else {
-                $filename = $this->defaultImage;
+                $filename = Article::DEFAULT_COVER_IMAGE;
             }
 
             $image = new Image();
             $image->path = $filename;
-            $image->description = $request->input('description') ?? 'Cover image';
+            $image->description = $request->input('description') ?? Article::DEFAULT_COVER_IMAGE_DESCRIPTION;
             $image->role = 'cover_image';
             $stored = $image->save();
 
@@ -353,9 +349,9 @@ class ArticleController extends Controller
                             if ($oldImage = $article->image()->first()) {
                                 $oldImage = Image::find($oldImage->id);
                                 $filePath = public_path() . 
-                                    '/' . $this->pathToCoverImage . $oldImage->path;
+                                    '/' . Article::COVER_IMAGE_PATH . $oldImage->path;
 
-                                if (is_readable($filePath) && $oldImage->path != $this->defaultImage) {
+                                if (is_readable($filePath) && $oldImage->path != Article::DEFAULT_COVER_IMAGE) {
                                     unlink($filePath);
                                 }
                                 
@@ -422,9 +418,9 @@ class ArticleController extends Controller
             $article->tags()->detach();
             $article->delete();
 
-            if ($coverImage->path != $this->defaultImage) {
+            if ($coverImage->path != Article::DEFAULT_COVER_IMAGE) {
                 $filePath = public_path() . 
-                    '/' . $this->pathToCoverImage . $coverImage->path;
+                    '/' . Article::COVER_IMAGE_PATH . $coverImage->path;
 
                 if (is_readable($filePath)) {
                     unlink($filePath);

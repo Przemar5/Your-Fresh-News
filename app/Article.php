@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Article extends Model
 {
     use SoftDeletes;
+
+    public const COVER_IMAGE_PATH = 'images/cover_images/';
+    public const DEFAULT_COVER_IMAGE = 'no-image.png';
+    public const DEFAULT_COVER_IMAGE_DESCRIPTION = 'No image';
     
     // Table name
     protected $table = 'articles';
@@ -30,7 +34,7 @@ class Article extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'slug', 'body'
+        'title', 'slug', 'body', 'categories'
     ];
 
 
@@ -83,7 +87,9 @@ class Article extends Model
 
     public function coverPath()
     {
-        return env('APP_URL') . $this->coverImagePath . $this->cover()->path;
+        $coverPath = $this->cover() ? $this->cover()->path : self::DEFAULT_COVER_IMAGE;
+
+        return env('APP_URL') . self::COVER_IMAGE_PATH . $coverPath;
     }
 
     public function tags()
