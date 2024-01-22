@@ -10,6 +10,7 @@ use App\Rating;
 use App\Tag;
 use App\User;
 use App\Http\Controllers\ErrorController;
+use App\Http\Controllers\Traits\HasPermissions;
 use App\Handlers\FileHandler;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -20,6 +21,8 @@ use Illuminate\Support\Facades\DB;
 
 class ArticleController extends Controller
 {
+    use HasPermissions;
+
     private FileHandler $fileHandler;
 
     /**
@@ -36,14 +39,6 @@ class ArticleController extends Controller
         ])->except([
             'index',
             'show',
-        ]);
-
-        $this->middleware([
-            'identity',
-        ])->only([
-            'edit',
-            'update',
-            'destroy',
         ]);
 
         $this->fileHandler = $fileHandler;
@@ -203,12 +198,17 @@ class ArticleController extends Controller
             $article->slug = $request->input('slug');
             $article->body = $request->input('body');
             $article->user_id = Auth::id();
-            $article->image()->sync($imageId, true);
+
+            if (!$article->save()) {
+                throw new \Exception("Article wasn't created.");
+            }
+
+            $article->image()->sync($image->id, true);
             $article->categories()->sync($request->input('categories'), true);
             $article->tags()->sync($request->input('tags'), true);
 
             if (!$article->save()) {
-                throw new \Exception("Article wassn't created.");
+                throw new \Exception("Article wasn't created.");
             }
 
             DB::connection()->commit();
@@ -221,12 +221,15 @@ class ArticleController extends Controller
         } catch(\Exception $e) {
             DB::connection()->rollBack();
 
-            if ($filename !== Article::DEFAULT_COVER_IMAGE && file_exists(Article::COVER_IMAGE_PATH . $filename)) {
-                unlink(Article::COVER_IMAGE_PATH . $filename);
+            $filePath = public_path() . Article::COVER_IMAGE_PATH . $filename;
+
+            if ($filename !== Article::DEFAULT_COVER_IMAGE && file_exists($filePath)) {
+                unlink($filePath);
             }
+
+            dd($e);
             
             return back()->with([
-                'article' => $article,
                 'error' => "Internal error. Article wasn't created."
             ]);
         }
@@ -276,9 +279,7 @@ class ArticleController extends Controller
             return ErrorController::error404();
         }
 
-        if (!Auth::user()->is('admin') && $article->id != Auth::user()->id) {
-            return back();
-        }
+        $this->abortIfNotOwnerOrAdmin($comment);
 
         $categories = Category::all()->sortBy('id');
         $tags = Tag::all()->sortBy('id');
@@ -307,9 +308,7 @@ class ArticleController extends Controller
             return ErrorController::error404();
         }
 
-        if (!auth::user()->is('admin') && $article->id != Auth::user()->id) {
-            return back();
-        }
+        $this->abortIfNotOwnerOrAdmin($comment);
 
         if (!empty($article)) {
             // Validate request
@@ -411,9 +410,7 @@ class ArticleController extends Controller
             return ErrorController::error404();
         }
 
-        if (!auth::user()->is('admin') && $article->id != Auth::user()->id) {
-            return back();
-        }
+        $this->abortIfNotOwnerOrAdmin($comment);
 
         if (!empty($article)) {
             $coverImage = Image::find($article->image()->first()->id);

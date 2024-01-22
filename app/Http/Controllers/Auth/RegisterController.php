@@ -111,7 +111,9 @@ class RegisterController extends Controller
         } catch(\Exception $e) {
             DB::connection()->rollBack();
 
-            if ($filename !== User::DEFAULT_AVATAR && file_exists(User::AVATAR_PATH . $filename)) {
+            $filePath = public_path() . User::AVATAR_PATH . $filename;
+
+            if ($filename !== User::DEFAULT_AVATAR && file_exists()) {
                 unlink(User::AVATAR_PATH . $filename);
             }
 
