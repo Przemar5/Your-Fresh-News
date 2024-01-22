@@ -101,19 +101,7 @@ class RegisterController extends Controller
                 throw new \Exception('User creation failed.');
             }
 
-            // $id = DB::table('users')->insertGetId([
-            //     'login' => $data['login'],
-            //     'name' => $data['name'],
-            //     'surname' => $data['surname'],
-            //     'email' => $data['email'],
-            //     'password' => Hash::make($data['password']),
-            //     'avatar' => $filename,
-            //     'info' => $data['info'] ?? '',
-            // ]);
-
-            // $user = User::find($id);
-
-            $this->redirectTo = route('profiles.show', ['id' => $id]);
+            $this->redirectTo = route('profiles.show', ['id' => $user->id]);
             $user->sendEmailVerificationNotification();
             
             DB::connection()->commit();
@@ -123,7 +111,7 @@ class RegisterController extends Controller
         } catch(\Exception $e) {
             DB::connection()->rollBack();
 
-            if ($filename !== User::DEFAULT_AVATAR) {
+            if ($filename !== User::DEFAULT_AVATAR && file_exists(User::AVATAR_PATH . $filename)) {
                 unlink(User::AVATAR_PATH . $filename);
             }
 

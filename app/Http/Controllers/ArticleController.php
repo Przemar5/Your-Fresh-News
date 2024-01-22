@@ -221,7 +221,7 @@ class ArticleController extends Controller
         } catch(\Exception $e) {
             DB::connection()->rollBack();
 
-            if ($filename !== Article::DEFAULT_COVER_IMAGE) {
+            if ($filename !== Article::DEFAULT_COVER_IMAGE && file_exists(Article::COVER_IMAGE_PATH . $filename)) {
                 unlink(Article::COVER_IMAGE_PATH . $filename);
             }
             

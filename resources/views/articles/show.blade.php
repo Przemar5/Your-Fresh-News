@@ -130,11 +130,15 @@
 
             <hr>
 
-            @if(Auth::user())
+            @if(Auth::user() && !empty(Auth::user()->email_verified_at))
                 <div class="my-5" id="addCommentSection">
                     <h2>Add Comment</h2>
 
                     @include('includes.forms.comment', ['articleId' => $article->id])
+                </div>
+            @elseif(Auth::user())
+                <div class="d-flex flex-column justify-content-center align-items-center my-5 p-4 p-sm-5 text-center" style="background-color: #f7f7f9;">
+                    <h4>Verify an account to write comments!</h4>
                 </div>
             @else
                 <div class="d-flex flex-column justify-content-center align-items-center my-5 p-4 p-sm-5 text-center" style="background-color: #f7f7f9;">

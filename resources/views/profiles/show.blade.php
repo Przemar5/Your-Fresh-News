@@ -35,7 +35,7 @@
                         Please check your mailbox for an activation email.
                     </span>
                     <span class="d-block">
-                        If you haven't received verification email,
+                        If you haven't received verification email or it doesn't work,
                         {{ Form::open([
                             'route' => ['verification.resend'],
                             'method' => 'POST',

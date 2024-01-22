@@ -6,6 +6,7 @@ use App\Article;
 use App\Comment;
 use App\User;
 use App\Http\Controllers\ErrorController;
+use App\Http\Controllers\Traits\HasPermissions;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -13,6 +14,8 @@ use Illuminate\Support\Facades\Validator;
 
 class CommentController extends Controller
 {
+    use HasPermissions;
+
     // For passing to validator
     protected const CREATE = true;
     protected const UPDATE = false;
@@ -36,7 +39,6 @@ class CommentController extends Controller
         $this->middleware([
             'auth', 
             'verified',
-            'identity',
         ])->only([
             'edit',
             'update',
@@ -201,6 +203,8 @@ class CommentController extends Controller
             return ErrorController::error404();
         }
 
+        $this->abortIfNotOwnerOrAdmin($comment);
+
         return view('comments.edit')->with('comment', $comment);
     }
 
@@ -218,6 +222,8 @@ class CommentController extends Controller
         if (empty($comment)) {
             return ErrorController::error404();
         }
+
+        $this->abortIfNotOwnerOrAdmin($comment);
 
         $validator = $this->validator($request->all(), self::UPDATE);
 
@@ -283,6 +289,8 @@ class CommentController extends Controller
         if (empty($comment)) {
             return ErrorController::error404();
         }
+
+        $this->abortIfNotOwnerOrAdmin($comment);
 
         $comment->delete();
 

@@ -67,6 +67,7 @@ class Kernel extends HttpKernel
         'logged' => \App\Http\Middleware\IsLogged::class,
         'writer' => \App\Http\Middleware\IsWriter::class,
         'admin' => \App\Http\Middleware\IsAdmin::class,
+        'owner' => \App\Http\Middleware\IsOwner::class,
         'identity' => \App\Http\Middleware\SameOrAdmin::class,
     ];
 }

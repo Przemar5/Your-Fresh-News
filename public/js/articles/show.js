@@ -354,7 +354,7 @@ $(document).ready(function () {
     })
 
 
-    const domain = 'http://yourfreshnews.herokuapp.com/'
+    const domain = '/'
     const editCommentRoute = domain + 'comments/{id}/edit'
     const updateCommentRoute = domain + 'comments/{id}'
     const deleteCommentRoute = domain + 'comments/{id}'
@@ -410,6 +410,7 @@ $(document).ready(function () {
 
             $(this).find('[name="title"]').val('')
             $(this).find('[name="body"]').val('')
+            $('.no-results').addClass('d-none')
         }
 
         Model.ajax(url, method, csrfToken, formData, successCallback, console.log)
@@ -517,6 +518,10 @@ $(document).ready(function () {
             let successCallback = (data) => {
                 commentViews[id].remove()
                 delete commentViews[id]
+
+                if ($('.comment').length == 0) {
+                    $('.no-results').removeClass('d-none')
+                }
             }
 
             Model.ajax(url, method, csrfToken, formData, successCallback, console.log)
