@@ -10,11 +10,12 @@ RUN apt-get update && apt-get install -y \
         libicu-dev \
         libpcre3-dev \
         curl \
+        libpq-dev \
         yarn -y && rm -r /var/lib/apt/lists/*
 
 RUN pecl install oauth
 
-RUN docker-php-ext-install pdo_mysql mysqli zip
+RUN docker-php-ext-install pdo pgsql pdo_pgsql pdo_mysql mysqli zip
 RUN docker-php-ext-enable oauth
 
 ARG TZ=Europe/Warsaw
