@@ -113,8 +113,8 @@ class RegisterController extends Controller
 
             $filePath = public_path() . User::AVATAR_PATH . $filename;
 
-            if ($filename !== User::DEFAULT_AVATAR && file_exists()) {
-                unlink(User::AVATAR_PATH . $filename);
+            if ($filename !== User::DEFAULT_AVATAR && file_exists($filePath)) {
+                unlink($filePath);
             }
 
             throw $e;
