@@ -181,3 +181,10 @@
 .article-tile-image-small:hover {
 	transform: scale(1.05);
 }
+
+@media screen and (max-width: 540px) {
+	.btn-more-articles {
+		width: auto;
+		display: block;
+	}
+}

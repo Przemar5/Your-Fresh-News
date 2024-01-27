@@ -1,31 +1,33 @@
 .article-mini {
-    background-color: #f7f7f9;
+  background-color: #f7f7f9;
 }
 
 .article-mini-photo-container {
-	object-fit: cover;
-	overflow: hidden;
-	display: block;
-	width: 100%;
-	height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  overflow: hidden;
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .article-mini-photo {
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: cover;
-    height: 100%;
-    transform: scale(1);
-    transition: 800ms transform;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  height: 100%;
+  transform: scale(1);
+  transition: 800ms transform;
 }
 
 .article-mini-photo:hover {
-	transform: scale(1.05);
+  transform: scale(1.05);
 }
 
 @media screen and (max-width: 992px) {
-    .article-mini-photo {
-        min-height: 14rem;
-        width: 100%;
-    }
+  .article-mini-photo {
+    min-height: 14rem;
+    width: 100%;
+  }
 }
+

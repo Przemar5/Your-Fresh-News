@@ -43,7 +43,7 @@ $(document).ready(function () {
 			}
 		}
 
-		let next = (i + val) % captions.length
+		let next = (i + val + captions.length) % captions.length
 
 		activateSlide(next)
 		hideOtherSlides(next)

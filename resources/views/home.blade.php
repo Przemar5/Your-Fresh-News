@@ -27,10 +27,10 @@
 							<div class="carousel-custom-content">
 								<div class="carousel-custom-content-inner">
 									<h3 class="carousel-custom-header">
-										{{ $articles->primary[$i]->title }}
+										{!! \Illuminate\Support\Str::limit($articles->primary[$i]->title, 80, $end='...') !!} 
 									</h3>
 									<p class="carousel-custom-body">
-										{!! \Illuminate\Support\Str::limit($articles->primary[$i]->body, 150, $end='...') !!} 
+										{!! \Illuminate\Support\Str::limit($articles->primary[$i]->body, 100, $end='...') !!} 
 									</p>
 									<a class="btn btn-dark carousel-custom-button" href="{{ route('articles.show', $articles->primary[$i]->slug) }}">
 										Read More
@@ -42,12 +42,12 @@
 					@endif
 				</div>
 
-				<a class="carousel-custom-control-prev" href="#carousel" role="button" data-slide="prev" style="z-index: 100;">
+				<a class="carousel-custom-control-prev" href="#" role="button" data-slide="prev" style="z-index: 100;">
 					<span class="carousel-custom-control-prev-icon fas fa-chevron-left" aria-hidden="true"></span>
 					<span class="sr-only">Previous</span>
 				</a>
 
-				<a class="carousel-custom-control-next" href="#carousel" role="button" data-slide="next" style="z-index: 100;">
+				<a class="carousel-custom-control-next" href="#" role="button" data-slide="next" style="z-index: 100;">
 					<span class="carousel-custom-control-next-icon fas fa-chevron-right" aria-hidden="true"></span>
 
 					<span class="sr-only">Next</span>
