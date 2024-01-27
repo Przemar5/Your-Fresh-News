@@ -15,7 +15,8 @@ class CreateUserImageTable extends Migration
     {
         Schema::create('user_image', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users');
+            $table->uuid('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->foreignId('image_id')->constrained('images');
             $table->softDeletes();
         });

@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+$uuidScheme = '[\w\d\-]+';
+
 // Pages
 Route::get('/', 'HomeController@index')->name('home');
 Route::get('contact', 'ContactController@index')->name('contact');
@@ -46,11 +48,11 @@ Route::patch('comments/{id}', 'CommentController@update')->where('id', '\d+')->n
 Route::delete('comments/{id}', 'CommentController@destroy')->where('id', '\d+')->name('comments.destroy');
 
 // Profiles
-Route::get('users/{id}', 'ProfileController@show')->where('id', '\d+')->name('profiles.show');
-Route::get('users/{id}/edit', 'ProfileController@edit')->where('id', '\d+')->name('profiles.edit');
-Route::patch('users/{id}/update', 'ProfileController@update')->where('id', '\d+')->name('profiles.update');
-Route::post('users/{id}/delete', 'ProfileController@delete')->where('id', '\d+')->name('profiles.delete');
-Route::delete('users/{id}', 'ProfileController@destroy')->where('id', '\d+')->name('profiles.destroy');
+Route::get('users/{id}', 'ProfileController@show')->where('id', $uuidScheme)->name('profiles.show');
+Route::get('users/{id}/edit', 'ProfileController@edit')->where('id', $uuidScheme)->name('profiles.edit');
+Route::patch('users/{id}/update', 'ProfileController@update')->where('id', $uuidScheme)->name('profiles.update');
+Route::post('users/{id}/delete', 'ProfileController@delete')->where('id', $uuidScheme)->name('profiles.delete');
+Route::delete('users/{id}', 'ProfileController@destroy')->where('id', $uuidScheme)->name('profiles.destroy');
 
 // Ratings
 // Route::get('ratings', 'RatingController@index')->name('ratings.index');

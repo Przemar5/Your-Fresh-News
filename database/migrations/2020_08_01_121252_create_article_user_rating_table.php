@@ -16,7 +16,8 @@ class CreateArticleUserRatingTable extends Migration
         Schema::create('article_user_rating', function (Blueprint $table) {
             $table->id();
             $table->foreignId('article_id')->constrained('articles');
-            $table->foreignId('user_id')->constrained('users');
+            $table->uuid('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->foreignId('rating_id')->constrained('ratings');
             $table->timestamps();
             $table->softDeletes();

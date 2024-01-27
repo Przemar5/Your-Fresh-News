@@ -18,7 +18,8 @@ class CreateArticlesTable extends Migration
             $table->string('title')->unique();
             $table->string('slug')->unique();
             $table->mediumText('body');
-            $table->foreignId('user_id')->constrained('users');
+            $table->uuid('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
             $table->softDeletes();
         });
