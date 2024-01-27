@@ -22,17 +22,17 @@ Route::get('search', 'SearchController@index')->name('search');
 // Articles
 Route::get('articles', 'ArticleController@index')->name('articles.index');
 Route::get('articles/create', 'ArticleController@create')->name('articles.create');
-Route::get('articles/{slug}', 'ArticleController@show')->where('slug', '[\w\-]+')->name('articles.show');
+Route::get('articles/{slug}', 'ArticleController@show')->where('slug', '[0-9a-zA-Z_\-]+')->name('articles.show');
 Route::post('articles', 'ArticleController@store')->name('articles.store');
-Route::get('articles/{slug}/edit', 'ArticleController@edit')->where('slug', '[\w\-]+')->name('articles.edit');
+Route::get('articles/{slug}/edit', 'ArticleController@edit')->where('slug', '[0-9a-zA-Z_\-]+')->name('articles.edit');
 Route::patch('articles/{id}', 'ArticleController@update')->where('id', '\d+')->name('articles.update');
 Route::delete('articles/{id}', 'ArticleController@destroy')->where('id', '\d+')->name('articles.destroy');
 
 // Categories
 Route::get('categories', 'CategoryController@index')->name('categories.index');
-Route::get('categories/{slug}', 'CategoryController@show')->where('slug', '[\w\-]+')->name('categories.show');
+Route::get('categories/{slug}', 'CategoryController@show')->where('slug', '[0-9a-zA-Z_\-]+')->name('categories.show');
 Route::post('categories', 'CategoryController@store')->name('categories.store');
-Route::get('categories/{slug}/edit', 'CategoryController@edit')->where('slug', '[\w\-]+')->name('categories.edit');
+Route::get('categories/{slug}/edit', 'CategoryController@edit')->where('slug', '[0-9a-zA-Z_\-]+')->name('categories.edit');
 Route::patch('categories/{id}', 'CategoryController@update')->where('id', '\d+')->name('categories.update');
 Route::delete('categories/{id}', 'CategoryController@destroy')->where('id', '\d+')->name('categories.destroy');
 

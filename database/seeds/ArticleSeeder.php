@@ -104,7 +104,9 @@ class ArticleSeeder extends Seeder
 
     private function generateArticle(string $title, string $body, User $author)
     {
-        $slug = urlencode(str_replace(' ', '-', lcfirst($title)));
+        $slug = str_replace(['-', ',', "'", ':', '"'], '', strtolower($title));
+        $slug = str_replace('  ', ' ', $slug);
+        $slug = str_replace(' ', '-', $slug);
 
         $article = new Article();
         $article->title = $title;
