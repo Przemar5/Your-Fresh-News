@@ -182,6 +182,10 @@
 	transform: scale(1.05);
 }
 
+.article-tile-caption {
+	overflow-wrap: break-word;
+}
+
 @media screen and (max-width: 540px) {
 	.btn-more-articles {
 		width: auto;

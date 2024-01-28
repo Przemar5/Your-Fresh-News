@@ -34,9 +34,10 @@ class ArticleSeeder extends Seeder
         $articlesData = array_map(function ($a) {
             $data = explode("\n\n\n", $a);
             $additionalData = explode("\n", $data[2]);
+            $body = implode("\n", array_map(fn($line) => "<p>$line</p>", explode("\n\n", $data[1])));
             $result = [
                 'title' => $data[0],
-                'body' => $data[1],
+                'body' => $body,
                 'tags' => [],
                 'categories' => [],
                 'user' => null,
@@ -64,11 +65,7 @@ class ArticleSeeder extends Seeder
                     throw new \Exception('Missing user: ' . $articleData['user']);
                 }
 
-                $article = $this->generateArticle(
-                    $articleData['title'], 
-                    $articleData['body'], 
-                    $user
-                );
+                $article = $this->generateArticle($articleData['title'], $articleData['body'], $user);
 
                 if (!$article->save()) {
                     throw new \Exception('Cannot save article');

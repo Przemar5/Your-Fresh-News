@@ -27,10 +27,10 @@
 							<div class="carousel-custom-content">
 								<div class="carousel-custom-content-inner">
 									<h3 class="carousel-custom-header">
-										{!! \Illuminate\Support\Str::limit($articles->primary[$i]->title, 80, $end='...') !!} 
+										{!! \Illuminate\Support\Str::limit($articles->primary[$i]->title, 80, $end='...') !!}
 									</h3>
-									<p class="carousel-custom-body">
-										{!! \Illuminate\Support\Str::limit($articles->primary[$i]->body, 100, $end='...') !!} 
+									<p class="carousel-custom-body d-none d-sm-inline-block">
+										{!! \Illuminate\Support\Str::limit($articles->primary[$i]->body, 60, $end='...') !!}
 									</p>
 									<a class="btn btn-dark carousel-custom-button" href="{{ route('articles.show', $articles->primary[$i]->slug) }}">
 										Read More
@@ -69,9 +69,9 @@
 									{{ ucfirst($articleCategories[$i]->name) }}
 								</a>
 							</strong>
-							<h3 class="mb-0">
+							<h4 class="mb-0">
 								{{ $articles->secondary[$articleCategories[$i]->name]->title }}
-							</h3>
+							</h4>
 							<span class="mb-1 font-italic text-muted">
 								{{ $articles->secondary[$articleCategories[$i]->name]->created_at->format('j F, Y') }}
 							</span>

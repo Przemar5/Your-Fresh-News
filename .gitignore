@@ -14,3 +14,4 @@ yarn-error.log
 /docker-compose.yaml
 /docker_database
 /test.php
+/TODO.txt
