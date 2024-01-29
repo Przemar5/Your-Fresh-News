@@ -52,7 +52,7 @@ class SearchController extends Controller
         $requestedTags = $request->input('tags') ?? null;
         $requestedWriter = $request->input('writer') ?? null;
 
-        $categories = Category::orderBy('id', 'ASC')->get();
+        $categories = Category::whereNotNull('parent_id')->orderBy('id', 'ASC')->get();
         $tags = Tag::orderBy('id', 'ASC')->get();
         $writers = User::writers()->sortBy('id');
 

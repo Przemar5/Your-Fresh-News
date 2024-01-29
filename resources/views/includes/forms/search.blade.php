@@ -27,7 +27,6 @@
         'style' => 'font-family: Nunito !important',
     ]) }}
 
-    @if(count($categories))
     {{ Form::label('categories[]', 'Categories') }}
     {{ Form::select('categories[]', (function ($categories) {
         $result = [];
@@ -44,25 +43,21 @@
         'style' => 'font-family: Nunito !important;',
     ]) }}
 
-    <!-- <label>Categories</label>
+    <!-- <label>Categories</label> -->
 
     <noscript>
-        <label>
-            <select class="form-control mb-3 w-100" style="font-family: Nunito !important;" name="categories[]">
-                <option selected>Select Categories</option>
-                @if(count($categories))
-                    @foreach($categories as $category)
-                    <option value="{{ $category->id }}">
-                        {{ $category->name }}
-                    </option>
-                    @endforeach
-                @endif
-            </select>
-        </label>
-    </noscript> -->
-    @endif
+        <select class="form-control mb-3 w-100" style="font-family: Nunito !important;" name="categories[]">
+            <option selected>Select Categories</option>
+            @if(count($categories))
+                @foreach($categories as $category)
+                <option value="{{ $category->id }}">
+                    {{ $category->name }}
+                </option>
+                @endforeach
+            @endif
+        </select>
+    </noscript>
 
-    @if(count($tags))
     {{ Form::label('tags[]', 'Tags') }}
     {{ Form::select('tags[]', (function ($tags) {
             $result = [];
@@ -79,21 +74,18 @@
             'style' => 'font-family: Nunito !important;',
     ]) }}
 
-    <!-- <noscript>
-        <label>
-            <select class="form-control mb-3" data-live-search="true" multiple="" style="font-family: Nunito !important;" name="tags[]">
-                <option selected>Select Tags*</option>
-                @if(count($tags))
-                    @foreach($tags as $tag)
-                    <option value="{{ $tag->id }}">
-                        {{ $tag->name }}
-                    </option>
-                    @endforeach
-                @endif
-            </select>
-        </label>
-    </noscript> -->
-    @endif
+    <noscript>
+        <select class="form-control mb-3" data-live-search="true" multiple="" style="font-family: Nunito !important;" name="tags[]">
+            <option selected>Select Tags*</option>
+            @if(count($tags))
+                @foreach($tags as $tag)
+                <option value="{{ $tag->id }}">
+                    {{ $tag->name }}
+                </option>
+                @endforeach
+            @endif
+        </select>
+    </noscript>
 
     {!! Form::submit('Search', [
         'class' => 'btn btn-primary btn-block'

@@ -131,7 +131,7 @@ class ArticleController extends Controller
     public function index()
     {
         $articles = Article::orderBy('created_at', 'DESC')->paginate(10);
-        $categories = Category::orderBy('id', 'ASC')->get();
+        $categories = Category::whereNotNull('parent_id')->orderBy('id', 'ASC')->get();
         $tags = Tag::orderBy('id', 'ASC')->get();
         $writers = User::writers();
 
