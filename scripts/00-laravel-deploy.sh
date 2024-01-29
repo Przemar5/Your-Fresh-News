@@ -10,8 +10,4 @@ echo "Caching routes..."
 php artisan route:cache
 
 echo "Running migrations..."
-php artisan migrate:reset
 php artisan migrate:fresh
-
-echo "Seeding data..."
-php artisan db:seed

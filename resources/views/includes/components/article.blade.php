@@ -14,7 +14,7 @@
         </h4>
 
         <p class="font-italic text-muted">
-            {{ $article->created_at->format('j F, Y') }} by {{ $article->user->first()->name }} {{ $article->user->first()->surname }}
+            {{ $article->created_at->format('j F, Y') }} by {{ $article->user->name }} {{ $article->user->surname }}
         </p>
 
         <div class="article-body mb-2">

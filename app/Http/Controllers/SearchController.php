@@ -28,7 +28,7 @@ class SearchController extends Controller
             ],
             'writer' => [
                 'nullable',
-                'integer',
+                'regex:[\w\d\-]',
                 'exists:users,id',
             ],
             'categories' => [
@@ -60,7 +60,7 @@ class SearchController extends Controller
 
         $articles = Article::whereHas('user', function ($query) use ($requestedWriter) {
                 if (!empty($requestedWriter)) {
-                    $query->where('id', $requestedWriter);
+                    $query->where('user_id', $requestedWriter);
                 }
             })
             ->whereHas('categories', function ($query) use ($requestedCategories) {

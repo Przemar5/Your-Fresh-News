@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Support\SessionHelper;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\VerifiesEmails;
@@ -49,9 +50,6 @@ class VerificationController extends Controller
      */
     protected function verified(Request $request)
     {
-        $request->session()->flash('alert', [
-            'status' => 'success',
-            'body' => 'Your email has been verified successfully.'
-        ]);
+        SessionHelper::addFlash('success', 'Your email has been verified successfully.');
     }
 }

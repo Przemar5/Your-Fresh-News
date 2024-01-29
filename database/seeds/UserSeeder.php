@@ -1,6 +1,7 @@
 <?php
 
 use App\User;
+use App\Role;
 use Illuminate\Database\Seeder;
 use Faker\Generator as Faker;
 use Faker\Factory as FakerFactory;
@@ -44,6 +45,12 @@ class UserSeeder extends Seeder
 
                 if (!$user->save()) {
                     throw new \Exception('Cannot save user');
+                }
+
+                $user->roles()->sync([2], true);
+
+                if (!$user->save()) {
+                    throw new \Exception('Cannot save user with roles');
                 }
 
                 if ($i > 0 && $i % 100 === 0) {

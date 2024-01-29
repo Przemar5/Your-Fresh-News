@@ -48,6 +48,8 @@
                     'data-validator-pattern-message' => 'Title contains forbidden characters.',
                 ]) }}
 
+                @include('includes.components.error', ['field' => 'title'])
+
                 {{ Form::label('slug', 'Slug') }}
                 {{ Form::text('slug', '', [
                     'class' => 'form-control mb-3',
@@ -65,6 +67,8 @@
                     'data-validator-maxlength-message' => 'Slug must be equeal or shorter than 255 characters long.',
                     'data-validator-pattern-message' => 'Slug may contain only letters, numbers, underscores and dashes.',
                 ]) }}
+
+                @include('includes.components.error', ['field' => 'slug'])
 
                 @if(count($categories))
                 {{ Form::label('categories[]', 'Categories') }}
@@ -141,6 +145,8 @@
                     'class' => 'form-control mb-3'
                 ]) }}
 
+                @include('includes.components.error', ['field' => 'cover_image'])
+
                 {{ Form::label('description', 'Image Description*') }}
                 {{ Form::text('description', '', [
                     'class' => 'form-control mb-3',
@@ -152,6 +158,8 @@
                     'data-validator-maxlength-message' => 'Image dascription must be equeal or shorter than 255 characters long.',
                     'data-validator-pattern-message' => 'Image description contains forbidden characters.',
                 ]) }}
+
+                @include('includes.components.error', ['field' => 'description'])
 
                 {{ Form::label('body', 'Body') }}
                 {{ Form::textarea('body', '', [
@@ -170,6 +178,8 @@
                     'data-validator-minlength-message' => 'Article body must be equeal or longer than 15 characters long.',
                     'data-validator-pattern-message' => 'Article body contains forbidden characters.',
                 ]) }}
+
+                @include('includes.components.error', ['field' => 'body'])
 
                 {!! Form::submit('Create', [
                     'class' => 'btn btn-primary btn-block mt-3'

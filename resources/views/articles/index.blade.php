@@ -44,7 +44,7 @@
             <h2>Advanced Search</h2>
 
             @if(count($articles) > 0)
-                @include('includes.forms.search', ['initialCategories' => $article->categories, 'initialTags' => $article->tags])
+                @include('includes.forms.search')
             @endif
         </div>
     </div>

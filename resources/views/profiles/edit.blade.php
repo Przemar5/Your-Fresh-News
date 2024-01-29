@@ -40,6 +40,15 @@
 
                 @include('includes.components.error', ['field' => 'login'])
 
+                {{ Form::label('old_password', 'Current password') }}
+                {{ Form::password('old_password', [
+                    'class' => 'form-control mb-3',
+                    'minlength' => '8',
+                    'maxlength' => '255',
+                ]) }}
+
+                @include('includes.components.error', ['field' => 'old_password'])
+
                 {{ Form::label('password', 'Password') }}
                 {{ Form::password('password', [
                     'class' => 'form-control mb-3',

@@ -46,11 +46,32 @@
 
     <div id="app" class="mt-5 pt-5">
         <main class="py-4">
-            @if(!empty($success))
-            <div class="alert alert-success">
-                {{ $success }}
+            <div class="container-fluid">
+                @foreach(session()->get('alerts') ?? [] as $alert)
+                    @if(is_array($alert))
+                        @php($alertClass = [
+                            'success' => 'success', 
+                            'info' => 'info', 
+                            'warning' => 'warning', 
+                            'error' => 'danger'
+                        ][$alert['status']])
+                        <div class="alert alert-{{$alertClass}} alert-dismissible fade show text-center" role="alert">
+                            {{ $alert['message'] }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    @endif
+                @endforeach
+                {{ session()->forget('alerts') }}
+
+                @if(!empty($success))
+                <div class="alert alert-success">
+                    {{ $success }}
+                </div>
+                @endif
             </div>
-            @endif
+
             @yield('content')
         </main>
     </div>
