@@ -1,4 +1,4 @@
-<h1>{{ $data['name'] }}</h1>
+<h1>{{ $data['name'] }} has send you message:</h1>
 
 <p>{{ $data['message'] }}</p>
 
