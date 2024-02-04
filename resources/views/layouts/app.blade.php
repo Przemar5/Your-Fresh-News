@@ -79,7 +79,7 @@
     <footer class="footer d-flex flex-direction-column justify-content-center align-items-center mt-5 p-5">
         <div class="text-center">
             <span class="d-block mb-2">
-                Przemysław Krogulski &copy; 2020
+                Przemysław Krogulski &copy; {{ now()->year }}
             </span>
             <span class="d-block">
                 primero.el.dev@gmail.com
